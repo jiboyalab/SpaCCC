@@ -3,6 +3,7 @@
 
 [![license](https://img.shields.io/badge/scGPT-black)](https://github.com/bowang-lab/scGPT)
 [![license](https://img.shields.io/badge/LIANA+-pink)](https://github.com/saezlab/liana-py)
+[![license](https://img.shields.io/badge/Node2vec+-red)](https://github.com/krishnanlab/node2vecplus_benchmarks?tab=readme-ov-file)
 [![license](https://img.shields.io/badge/python_-3.8.0_-blue)](https://www.python.org/)
 [![license](https://img.shields.io/badge/torch_-1.12.0_-red)](https://pytorch.org/)
 [![license](https://img.shields.io/badge/scanpy_-1.9.0_-green)](https://scanpy.readthedocs.io/en/stable/)
