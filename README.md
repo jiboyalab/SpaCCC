@@ -525,9 +525,9 @@ A visualization sample of results:
 
 # Contributing
 
-All authors were involved in the conceptualization of the scDCA method.  LWX and SLP conceived and supervised the project. BYJ and LWX designed the study and developed the approach. XQW and XW collected the data. BYJ and LWX analyzed the results. BYJ, XQW, XW, LWX and SLP contributed to the review of the manuscript before submission for publication. All authors read and approved the final manuscript.
+All authors were involved in the conceptualization of the SpaCCC method.  LWX and SLP conceived and supervised the project. BYJ and LWX designed the study and developed the approach. BYJ and DBQ collected the data. BYJ and LWX analyzed the results. BYJ, DBQ, LWX and SLP contributed to the review of the manuscript before submission for publication. All authors read and approved the final manuscript.
 
-# Cite
+# Views
 <p align="center">
   <a href="https://clustrmaps.com/site/1bpq2">
      <img width="200"  src="https://clustrmaps.com/map_v2.png?cl=ffffff&w=268&t=m&d=4hIDPHzBcvyZcFn8iDMpEM-PyYTzzqGtngzRP7_HkNs" />
