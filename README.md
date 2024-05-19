@@ -882,6 +882,7 @@ Retrieved gene embeddings for 17674 genes.
 # Protein links and information are first preprocessed
 python /home/jby2/SpaCCC/preprocess_links_info.py --protein_links /home/jby2/SpaCCC/9606.protein.links.v12.0.txt --protein_info /home/jby2/SpaCCC/9606.protein.info.v12.0.txt --save_dir /home/jby2/SpaCCC/results
 pecanpy --input "/home/jby2/SpaCCC/results/PPI.edg" --output /home/jby2/SpaCCC/results/PPI_n2vplus_epoch100.emb --mode SparseOTF --dimensions 512 --epochs 100 --workers 16 --p 0.05 --q 0.1 --weighted --verbose --gamma 1 --extend
+python /home/jby2/SpaCCC/get_embedding_file.py --save_dir /home/jby2/SpaCCC/results
 ```
 **Arguments**:
 
@@ -891,63 +892,16 @@ pecanpy --input "/home/jby2/SpaCCC/results/PPI.edg" --output /home/jby2/SpaCCC/r
 | **protein_info** | The file path for protein information. You can download it from the [link](https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz) |
 | **save_dir** | The folder path for saving the results (the directory will automatically be created). |
 
-
 ```
-############ ------------- scDCA (the key factors in specific cell type)--------------- ############
->>> arguments <<<  Namespace(ccc_ratio_result='/home/jby2/ccc_ratio_result.csv', cell_type='CD8T', count='/home/jby2/HoloNet/github/ScRNA_test_data_matrix.txt', dca_rank_result='/home/jby2/dca_rank_result.csv', device='cuda:1', display_loss='False', facked_LR='200', gene='GZMK', learning_rate='0.1', lr_file='/home/jby2/HoloNet/github/LR_test_data.csv', max_epoch='200', meta='/home/jby2/HoloNet/github/ScRNA_test_data_metadata.txt', repeat_num='50')
->>> loading library and data <<<  Wed Aug 16 16:52:58 2023
->>> construct an AnnData object from a count file and a metadata file <<<  Wed Aug 16 16:52:58 2023
->>> load the provided dataframe with the information on ligands and receptors <<<  Wed Aug 16 16:53:01 2023
->>> calculate the CE tensor by considering the expression levels of ligand and receptor genes <<<  Wed Aug 16 16:53:01 2023
-
-    Notes:
-        This function calculates the CE tensor by considering the expression levels of ligand and receptor genes.
-        If the data is large, it may require substantial memory for computation.
-        We're working on improving this piece of code.
-    
->>> filter the edge in calculated CE tensor, removing the edges with low specificities <<<  Wed Aug 16 16:53:06 2023
-
-    Notes:
-        This process will take a long time, if you want to reduce the calculation time, please reduce the facked_LR number, the default value is 200
-    
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 154/154 [12:42<00:00,  4.95s/it]
->>> construct a cell type adjacency tensor based on the specific cell type and the summed LR-CE tensor. <<<  Wed Aug 16 17:05:50 2023
-cell type: B
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:03<00:00, 389.17it/s]
-cell type: CD8T
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:06<00:00, 211.45it/s]
-cell type: Malignant
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:23<00:00, 59.02it/s]
-cell type: Mono/Macro
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:03<00:00, 429.62it/s]
->>> detect the highly variable genes <<<  Wed Aug 16 17:06:28 2023
->>> start training the multi-view graph convolutional neural network <<<  Wed Aug 16 17:06:29 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [01:22<00:00,  1.65s/it]
->>> calculate the generated expression profile of the target gene. <<<  Wed Aug 16 17:07:51 2023
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 225.80it/s]
-The mean squared error of original and predicted gene expression profiles: 0.022984229
-The Pearson correlation of original and predicted gene expression profiles: 0.730637538204903
->>> the dominant cell communication assmebly that regulates the target gene expression pattern is stored at: <<<  /home/jby2/dca_rank_result.csv Wed Aug 16 17:07:51 2023
->>> the ratio of different cell types affected by cellular communication is stored at: <<<  /home/jby2/ccc_ratio_result.csv Wed Aug 16 17:07:51 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 81.21it/s]
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+Took 00:02:45.09 to load Graph
+Took 00:00:00.00 to pre-compute transition probabilities
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 196220/196220 [04:21<00:00, 751.23it/s]
+Took 00:03:12.15 to generate walks
+Took 00:03:24.95 to train embeddings
 ```
 
-A sample output result file is as follows:
 
-**dca_rank_result.csv** （The first column represents the serial number of cell type pairs, ordered by attention weight; the second column represents the cell type pair name; the third column represents the average attention weight for 50 model repetitions of training）:
-| | Cell_type_Pair |MGC_layer_attention|
-| --- | --- | --- |
-| 2 | Malignant:CD8T |0.5214142|
-| 0 | B:CD8T |0.46100155|
-| 3 | Mono/Macro:CD8T |0.43015426|
-| 1 |  CD8T:CD8T|0.3521795|
-
-
-
-A visualization sample of results:
-<div align="center">
-  <img src="https://github.com/jiboyalab/scDCA/blob/main/IMG/folr2tam.png" alt="Editor" width="500">
-</div>
 
 ## 4，Prioritize the dominant cell communication assmebly that affected functional states of malignant cells
 ```
