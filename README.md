@@ -881,6 +881,7 @@ Retrieved gene embeddings for 17674 genes.
 ```
 # Protein links and information are first preprocessed
 python /home/jby2/SpaCCC/preprocess_links_info.py --protein_links /home/jby2/SpaCCC/9606.protein.links.v12.0.txt --protein_info /home/jby2/SpaCCC/9606.protein.info.v12.0.txt --save_dir /home/jby2/SpaCCC/results
+pecanpy --input "/home/jby2/SpaCCC/results/PPI.edg" --output /home/jby2/SpaCCC/results/PPI_n2vplus_epoch100.emb --mode SparseOTF --dimensions 512 --epochs 100 --workers 16 --p 0.05 --q 0.1 --weighted --verbose --gamma 1 --extend
 ```
 **Arguments**:
 
@@ -889,16 +890,7 @@ python /home/jby2/SpaCCC/preprocess_links_info.py --protein_links /home/jby2/Spa
 | **protein_links** | The file path for protein links. You can download it from the [link](https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz) |
 | **protein_info** | The file path for protein information. You can download it from the [link](https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz) |
 | **save_dir** | The folder path for saving the results (the directory will automatically be created). |
-| **gene** | The specific target gene name (Please ensure that the gene is highly variable, we detect the highly variable genes by running sc.pp.highly_variable_genes with default parameters). |
-| **cell_type** | The specific cell type. |
-| **device** | The device for model training (cuda or cpu, default is cpu). |
-| **facked_LR** | The faked ligand and receptor genes number for removing the edges with low specificities (default is 200). |
-| **repeat_num** | The repeat number for model training (default is 50). |
-| **max_epoch** | The max epoch for model training (default is 200). |
-| **learning_rate** | The learning rate for model training (default is 1e-1). |
-| **display_loss** | Display training loss for model training (default is True).|
-| **dca_rank_result** | The result filename of prioritize the dominant cell communication assmebly that regulates the target gene expression pattern. |
-| **ccc_ratio_result** | The result filename of ratio of different cell types affected by cellular communication. |
+
 
 ```
 ############ ------------- scDCA (the key factors in specific cell type)--------------- ############
