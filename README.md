@@ -687,7 +687,7 @@ scGPT - INFO - -----------------------------------------------------------------
 scGPT - INFO - | end of epoch  10 | time: 86.76s | valid loss/mse 0.9935 | err 0.1941
 scGPT - INFO - -----------------------------------------------------------------------------------------
 >>> Inference with fine-tuned scGPT model <<<  Sun May 19 11:31:51 2024
-scGPT - INFO - Accuracy: 0.795, Precision: 0.698, Recall: 0.711, Macro F1: 0.698
+scGPT - INFO - Accuracy: 0.820, Precision: 0.777, Recall: 0.676, Macro F1: 0.707
 WARNING: saving figure to file /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-11-17/showtest_cell_type_results.pdf
 WARNING: saving figure to file /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-11-17/showprediction_cell_type_results.pdf
 WARNING: saving figure to file /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-11-17/showcell_type_results.pdf
@@ -711,12 +711,12 @@ wandb: Run summary:
 wandb:                        epoch 10
 wandb: info/post_freeze_param_count 51336202
 wandb:  info/pre_freeze_param_count 51336202
-wandb:                test/accuracy 0.79474
-wandb:                test/macro_f1 0.69775
-wandb:               test/precision 0.69764
-wandb:                  test/recall 0.71072
+wandb:                test/accuracy 0.82074
+wandb:                test/macro_f1 0.70775
+wandb:               test/precision 0.77764
+wandb:                  test/recall 0.67672
 wandb:                    train/cls 0.00378
-wandb:                    valid/err 0.20526
+wandb:                    valid/err 0.18526
 wandb: 
 wandb: 🚀 View run bright-frog-221 at: https://wandb.ai/jby236/scGPT/runs/w8koygt1
 wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
