@@ -30,7 +30,7 @@ The overview of the workflow for developing SpaCCC. **(a)** The input, intermedi
 
 ## Installation
 
-scDCA is tested to work under:
+SpaCCC is tested to work under:
 
 ```
 * Python 3.8.0
@@ -42,8 +42,8 @@ scDCA is tested to work under:
 * Other basic python and r toolkits
 ```
 ### Installation of other dependencies 
-**Notes:** These dependencies, in order to infer ligand–receptor (L-R) pairs from single-cell RNA sequencing data, can skip the installation process if you already have the LR result files (e.g. LR_P76.csv and LR_P915.csv provided in the data folder).
-* Install [CellPhoneDB v3](https://github.com/ventolab/CellphoneDB) using ` pip install cellphonedb ` if you encounter any issue. 
+**Notes:** These dependencies, in order to obtain hidden embeddings of cells, ligands and receptors, are publicly available on their Github README.
+* Install [scGPT](https://github.com/bowang-lab/scGPT) using ` pip install scgpt "flash-attn<1.0.5" ` if you encounter any issue. 
 * Install [CellChat v1.6.0](https://github.com/sqjin/CellChat/tree/master) using ` devtools::install_github("sqjin/CellChat") ` in the R environment if you encounter any issue.
 * Install [NicheNet v1.1.0](https://github.com/saeyslab/nichenetr) using ` devtools::install_github("saeyslab/nichenetr") ` in the R environment if you encounter any issue.
 * Install [ICELLNET](https://github.com/soumelis-lab/ICELLNET) using ` install_github("soumelis-lab/ICELLNET",ref="master", subdir="icellnet") ` in the R environment if you encounter any issue.
