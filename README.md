@@ -730,64 +730,133 @@ wandb: Find logs at: ./wandb/run-20240519_111703-w8koygt1/logs
 
 ## 2，Fine-tuning on Pre-trained Model for Obtaining Gene embeddings
 ```
-cd ./src/tutorials1/ && python main.py --count /home/jby2/ScRNA_test_data_matrix.txt --meta /home/jby2/ScRNA_test_data_metadata.txt --gene HCST --lr_file /home/jby2/LR_test_data.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss True --ccc_ratio_result /home/jby2/ccc_ratio_result.csv --dca_rank_result /home/jby2/dca_rank_result.csv
+# The following program needs to be run in the scGPT environment, see [scGPT](https://github.com/bowang-lab/scGPT) for details on how to use it:
+
+python /home/jby2/SpaCCC/fine_tuning_gene_embeddings.py --filename /home/jby2/SpaCCC/data/BRCA_Visium_10x_tmp.h5ad --dataset_name BRCA_Visium_10x_tmp --load_model /home/jby2/SpaCCC/scGPT_their_example/scGPT_human --save_dir /home/jby2/SpaCCC/results
+
 ```
 **Arguments**:
 
+
 | **Arguments** | **Detail** |
 | --- | --- |
-| **count** | Count matrix / normalized count matrix path. |
-| **meta** | Meta data (celltypes annotation) path. |
-| **lr_file** | The final results of LR pairs. |
-| **gene** | The specific target gene name (Please ensure that the gene is highly variable, we detect the highly variable genes by running sc.pp.highly_variable_genes with default parameters). |
-| **device** | The device for model training (cuda or cpu, default is cpu). |
-| **facked_LR** | The faked ligand and receptor genes number for removing the edges with low specificities (default is 200). |
-| **repeat_num** | The repeat number for model training (default is 50). |
-| **max_epoch** | The max epoch for model training (default is 200). |
-| **learning_rate** | The learning rate for model training (default is 1e-1). |
-| **display_loss** | Display training loss for model training (default is True).|
-| **dca_rank_result** | The result filename of prioritize the dominant cell communication assmebly that regulates the target gene expression pattern. |
-| **ccc_ratio_result** | The result filename of ratio of different cell types affected by cellular communication. |
+| **filename** | The file path for single-cell RNA-seq data, requires h5ad file format |
+| **dataset_name** | Dataset name |
+| **load_model** | The folder path of pretained scGPT model (you can download it form [link](https://drive.google.com/drive/folders/1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y))|
+| **save_dir** | The folder path for saving the results (the directory will automatically be created). |
 
 ```
-############ ------------- scDCA --------------- ############
->>> arguments <<<
-Namespace(ccc_ratio_result='/home/jby2/ccc_ratio_result.csv', count='/home/jby2/ScRNA_test_data_matrix.txt', dca_rank_result='/home/jby2/dca_rank_result.csv', device='cuda:1', display_loss='False', facked_LR='200', gene='HCST', learning_rate='0.1', lr_file='/home/jby2/LR_test_data.csv', max_epoch='200', meta='/home/jby2/ScRNA_test_data_metadata.txt', repeat_num='50')
->>> loading library and data <<<  Tue Aug 15 23:04:05 2023
->>> construct an AnnData object from a count file and a metadata file <<<  Tue Aug 15 23:04:05 2023
->>> load the provided dataframe with the information on ligands and receptors <<<  Tue Aug 15 23:04:08 2023
->>> calculate the CE tensor by considering the expression levels of ligand and receptor genes <<<  Tue Aug 15 23:04:08 2023
+/home/jby2/anaconda3/envs/scgptt/lib/python3.9/site-packages/torchvision/io/image.py:13: UserWarning: Failed to load image Python extension: libtorch_cuda_cu.so: cannot open shared object file: No such file or directory
+  warn(f"Failed to load image Python extension: {e}")
+Global seed set to 0
+############ ------------- SpaCCC --------------- ############
+>>> arguments <<< 
+ Namespace(filename='/home/jby2/SpaCCC/data/BRCA_Visium_10x_tmp.h5ad', dataset_name='BRCA_Visium_10x_tmp', load_model='/home/jby2/SpaCCC/scGPT_their_example/scGPT_human', save_dir='/home/jby2/SpaCCC/results')
+>>> loading hyperparameter and data <<<  Sun May 19 15:17:11 2024
+wandb: Currently logged in as: jby236. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.16.4
+wandb: Run data is saved locally in /home/jby2/data/wandb/run-20240519_151714-2plynghc
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run apricot-hill-224
+wandb: ⭐️ View project at https://wandb.ai/jby236/scGPT
+wandb: 🚀 View run at https://wandb.ai/jby236/scGPT/runs/2plynghc
+{'seed': 0, 'dataset_name': 'BRCA_Visium_10x_tmp', 'do_train': True, 'load_model': '/home/jby2/scGPT_their_example/scGPT_human', 'mask_ratio': 0.0, 'epochs': 10, 'n_bins': 51, 'MVC': False, 'ecs_thres': 0.0, 'dab_weight': 0.0, 'lr': 0.0001, 'batch_size': 12, 'layer_size': 128, 'nlayers': 4, 'nhead': 4, 'dropout': 0.2, 'schedule_ratio': 0.9, 'save_eval_interval': 5, 'fast_transformer': True, 'pre_norm': False, 'amp': True, 'include_zero_gene': False, 'freeze': False, 'DSBN': False}
+>>> settings for input and preprocessing <<<  Sun May 19 15:17:26 2024
+>>> input/output representation <<<  Sun May 19 15:17:26 2024
+>>> settings for training <<<  Sun May 19 15:17:26 2024
+save to /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-15-17
+>>> Load and pre-process data <<<  Sun May 19 15:17:26 2024
+scGPT - INFO - match 18097/22240 genes in vocabulary of size 60697.
+scGPT - INFO - Resume model from /home/jby2/SpaCCC/scGPT_their_example/scGPT_human/best_model.pt, the model args will override the config /home/jby2/SpaCCC/scGPT_their_example/scGPT_human/args.json.
+>>> set up the preprocessor, use the args to config the workflow <<<  Sun May 19 15:17:26 2024
+scGPT - INFO - Normalizing total counts ...
+scGPT - INFO - Binning data ...
+scGPT - INFO - Normalizing total counts ...
+scGPT - INFO - Binning data ...
+scGPT - INFO - train set number of samples: 2734, 
+         feature length: 3001
+scGPT - INFO - valid set number of samples: 304, 
+         feature length: 3001
+>>> Load the pre-trained scGPT model <<<  Sun May 19 15:17:34 2024
+scGPT - INFO - Loading params encoder.embedding.weight with shape torch.Size([60697, 512])
+scGPT - INFO - Loading params encoder.enc_norm.weight with shape torch.Size([512])
+...
+name: cls_decoder._decoder.5.bias
+--------------------
+name: cls_decoder.out_layer.weight
+--------------------
+name: cls_decoder.out_layer.bias
+scGPT - INFO - Total Pre freeze Params 51336202
+scGPT - INFO - Total Post freeze Params 51336202
+>>> Finetune scGPT with task-specific objectives <<<  Sun May 19 15:17:36 2024
+random masking at epoch   1, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   1 | 100/228 batches | lr 0.0001 | ms/batch 371.36 | loss  1.59 | cls  1.59 | err  0.50 | 
+scGPT - INFO - | epoch   1 | 200/228 batches | lr 0.0001 | ms/batch 363.57 | loss  1.24 | cls  1.24 | err  0.40 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   1 | time: 86.51s | valid loss/mse 1.1115 | err 0.3553
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - Best model with score 1.1115
+random masking at epoch   2, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   2 | 100/228 batches | lr 0.0001 | ms/batch 370.45 | loss  1.03 | cls  1.03 | err  0.35 | 
+scGPT - INFO - | epoch   2 | 200/228 batches | lr 0.0001 | ms/batch 365.53 | loss  0.88 | cls  0.88 | err  0.31 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   2 | time: 86.66s | valid loss/mse 0.7274 | err 0.2664
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - Best model with score 0.7274
+random masking at epoch   3, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   3 | 100/228 batches | lr 0.0001 | ms/batch 371.72 | loss  0.81 | cls  0.81 | err  0.28 | 
+scGPT - INFO - | epoch   3 | 200/228 batches | lr 0.0001 | ms/batch 366.72 | loss  0.76 | cls  0.76 | err  0.27 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   3 | time: 86.95s | valid loss/mse 0.6702 | err 0.2632
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - Best model with score 0.6702
+random masking at epoch   4, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   4 | 100/228 batches | lr 0.0001 | ms/batch 372.03 | loss  0.63 | cls  0.63 | err  0.22 | 
+scGPT - INFO - | epoch   4 | 200/228 batches | lr 0.0001 | ms/batch 367.04 | loss  0.66 | cls  0.66 | err  0.23 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   4 | time: 87.02s | valid loss/mse 0.5782 | err 0.2007
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - Best model with score 0.5782
+random masking at epoch   5, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   5 | 100/228 batches | lr 0.0001 | ms/batch 374.14 | loss  0.57 | cls  0.57 | err  0.20 | 
+scGPT - INFO - | epoch   5 | 200/228 batches | lr 0.0001 | ms/batch 367.74 | loss  0.54 | cls  0.54 | err  0.18 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   5 | time: 87.26s | valid loss/mse 0.5129 | err 0.1875
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - Best model with score 0.5129
+random masking at epoch   6, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   6 | 100/228 batches | lr 0.0001 | ms/batch 372.35 | loss  0.47 | cls  0.47 | err  0.17 | 
+scGPT - INFO - | epoch   6 | 200/228 batches | lr 0.0001 | ms/batch 367.12 | loss  0.44 | cls  0.44 | err  0.16 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   6 | time: 87.06s | valid loss/mse 0.5146 | err 0.1908
+scGPT - INFO - -----------------------------------------------------------------------------------------
+random masking at epoch   7, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   7 | 100/228 batches | lr 0.0001 | ms/batch 372.07 | loss  0.39 | cls  0.39 | err  0.14 | 
+scGPT - INFO - | epoch   7 | 200/228 batches | lr 0.0001 | ms/batch 366.75 | loss  0.35 | cls  0.35 | err  0.12 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   7 | time: 86.95s | valid loss/mse 0.6900 | err 0.2105
+scGPT - INFO - -----------------------------------------------------------------------------------------
+random masking at epoch   8, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   8 | 100/228 batches | lr 0.0000 | ms/batch 371.68 | loss  0.37 | cls  0.37 | err  0.13 | 
+scGPT - INFO - | epoch   8 | 200/228 batches | lr 0.0000 | ms/batch 366.29 | loss  0.30 | cls  0.30 | err  0.11 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   8 | time: 86.85s | valid loss/mse 0.7080 | err 0.2039
+scGPT - INFO - -----------------------------------------------------------------------------------------
+random masking at epoch   9, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch   9 | 100/228 batches | lr 0.0000 | ms/batch 371.61 | loss  0.33 | cls  0.33 | err  0.11 | 
+scGPT - INFO - | epoch   9 | 200/228 batches | lr 0.0000 | ms/batch 367.19 | loss  0.30 | cls  0.30 | err  0.11 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch   9 | time: 86.92s | valid loss/mse 0.7576 | err 0.1908
+scGPT - INFO - -----------------------------------------------------------------------------------------
+random masking at epoch  10, ratio of masked values in train:  0.0000
+scGPT - INFO - | epoch  10 | 100/228 batches | lr 0.0000 | ms/batch 371.57 | loss  0.24 | cls  0.24 | err  0.08 | 
+scGPT - INFO - | epoch  10 | 200/228 batches | lr 0.0000 | ms/batch 365.88 | loss  0.26 | cls  0.26 | err  0.08 | 
+scGPT - INFO - -----------------------------------------------------------------------------------------
+scGPT - INFO - | end of epoch  10 | time: 86.82s | valid loss/mse 0.9935 | err 0.1941
+scGPT - INFO - -----------------------------------------------------------------------------------------
+>>> Inference with fine-tuned scGPT model <<<  Sun May 19 15:32:05 2024
+>>> Save the model into the save_dir <<<  Sun May 19 15:32:18 2024
 
-    Note:
-        This function calculates the CE tensor by considering the expression levels of ligand and receptor genes.
-        If the data is large, it may require substantial memory for computation.
-        We're working on improving this piece of code.
-    
->>> filter the edge in calculated CE tensor, removing the edges with low specificities <<<  Tue Aug 15 23:04:12 2023
-
-    Notes:
-        This process will take a long time, if you want to reduce the calculation time, please reduce the facked_LR number, the default value is 200
-    
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 154/154 [15:56<00:00,  6.21s/it]
->>> construct a cell type adjacency tensor based on the cell type and the summed LR-CE tensor. <<<  Tue Aug 15 23:20:10 2023
-cell type: B
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:31<00:00,  7.75s/it]
-cell type: CD8T
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:53<00:00, 17.96s/it]
-cell type: Malignant
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [01:52<00:00, 56.26s/it]
-cell type: Mono/Macro
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.15s/it]
->>> detect the highly variable genes <<<  Tue Aug 15 23:23:29 2023
->>> start training the multi-view graph convolutional neural network <<<  Tue Aug 15 23:23:30 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [01:22<00:00,  1.65s/it]
->>> calculate the generated expression profile of the target gene. <<<  Tue Aug 15 23:24:52 2023
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 113.09it/s]
-The mean squared error of original and predicted gene expression profiles: 0.03500232
-The Pearson correlation of original and predicted gene expression profiles: 0.34182112010369733
->>> the dominant cell communication assmebly that regulates the target gene expression pattern is stored at: <<<  /home/jby2/dca_rank_result.csv Tue Aug 15 23:24:52 2023
->>> the ratio of different cell types affected by cellular communication is stored at: <<<  /home/jby2/ccc_ratio_result.csv Tue Aug 15 23:24:52 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:01<00:00, 37.04it/s]
 ```
 A sample output result file is as follows:
 
