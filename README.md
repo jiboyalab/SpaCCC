@@ -879,15 +879,16 @@ Retrieved gene embeddings for 17674 genes.
 
 ## 3，Training on functional gene interaction network for Obtaining Gene embeddings
 ```
-cd ./src/tutorials2/ && python main.py --count /home/jby2/ScRNA_test_data_matrix.txt --meta /home/jby2/ScRNA_test_data_metadata.txt --gene GZMK --cell_type CD8T --lr_file /home/jby2/LR_test_data.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss False --ccc_ratio_result /home/jby2/ccc_ratio_result.csv --dca_rank_result /home/jby2/dca_rank_result.csv
+# Protein links and information are first preprocessed
+python /home/jby2/SpaCCC/preprocess_links_info.py --protein_links /home/jby2/SpaCCC/9606.protein.links.v12.0.txt --protein_info /home/jby2/SpaCCC/9606.protein.info.v12.0.txt --save_dir /home/jby2/SpaCCC/results
 ```
 **Arguments**:
 
 | **Arguments** | **Detail** |
 | --- | --- |
-| **count** | Count matrix / normalized count matrix path. |
-| **meta** | Meta data (celltypes annotation) path. |
-| **lr_file** | The final results of LR pairs. |
+| **protein_links** | The file path for protein links. You can download it from the [link](https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz) |
+| **protein_info** | The file path for protein information. You can download it from the [link](https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz) |
+| **save_dir** | The folder path for saving the results (the directory will automatically be created). |
 | **gene** | The specific target gene name (Please ensure that the gene is highly variable, we detect the highly variable genes by running sc.pp.highly_variable_genes with default parameters). |
 | **cell_type** | The specific cell type. |
 | **device** | The device for model training (cuda or cpu, default is cpu). |
