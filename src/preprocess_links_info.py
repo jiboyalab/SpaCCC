@@ -40,7 +40,7 @@ if __name__ == "__main__":
         final_pair.append(pair)
 
     gene_name=final_pair
-
+    StorFile(gene_name,save_dir+"gene_name.csv")
     final_pair=[]
     for i in range(protein_links.shape[0]):
         print(i)
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         pair.append(combined_score)
         final_pair.append(pair)
     gene_links = final_pair
-    
+    StorFile(gene_links,save_dir+"gene_links.csv")
     file_name=save_dir+"PPI.edg"
     edgfile=open(file_name,"w")
 
