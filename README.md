@@ -877,7 +877,7 @@ Retrieved gene embeddings for 17674 genes.
 
 
 
-## 3，Prioritize the dominant cell communication assmebly that regulates the key factors in specific cell type
+## 3，Training on functional gene interaction network for Obtaining Gene embeddings
 ```
 cd ./src/tutorials2/ && python main.py --count /home/jby2/ScRNA_test_data_matrix.txt --meta /home/jby2/ScRNA_test_data_metadata.txt --gene GZMK --cell_type CD8T --lr_file /home/jby2/LR_test_data.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss False --ccc_ratio_result /home/jby2/ccc_ratio_result.csv --dca_rank_result /home/jby2/dca_rank_result.csv
 ```
