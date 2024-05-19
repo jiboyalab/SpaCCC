@@ -71,21 +71,21 @@ To reproduce our results:
 | P76_malignant_cell_states_gsva_mat.txt  | The activity scores calculated by gene set variation analysis (gsva) for 14 functional state in malignant cells of patient P76, which 14 functional state signatures of malignant cells were obtained from the [CancerSEA](http://biocc.hrbmu.edu.cn/CancerSEA/)|
 | malignant_cell_states_gsva.txt  | The activity scores calculated by gene set variation analysis (gsva) for 14 functional state in malignant cells of test data, which 14 functional state signatures of malignant cells were obtained from the [CancerSEA](http://biocc.hrbmu.edu.cn/CancerSEA/)|
 
-## 1，Infer ligand–receptor (L-R) pairs from single-cell RNA sequencing data
-**Notes:** If you already have an LR result file or want to specify the LR yourself (e.g. LR_P76.csv, LR_P915.csv and LR_test_data.csv provided in the data folder), skip this step.
+## 1，Fine-tuning on Pre-trained Model for Cell-type Annotation
+**Notes:** If you already have the cell type labels in your dataset (e.g. adata.obs.cell_type in the h5ad file that we provide), skip this step.
 ```
-# The following program needs to be run in the cellphonedb environment, see [Cellphonedb](https://github.com/Teichlab/cellphonedb) for details on how to use it:
+# The following program needs to be run in the scGPT environment, see [scGPT](https://github.com/bowang-lab/scGPT) for details on how to use it:
 
-cellphonedb method statistical_analysis ./data/ScRNA_test_data_metadata.txt ./data/ScRNA_test_data_matrix.txt --counts-data=gene_name --iterations=10 --threads=100 --output-path=./output/
+python /home/jby2/SpaCCC/cell_type_anno_finetune.py --filename /home/jby2/SpaCCC/data/BRCA_Visium_10x_tmp.h5ad --dataset_name BRCA_Visium_10x_tmp --load_model /home/jby2/SpaCCC/scGPT_their_example/scGPT_human --save_dir /home/jby2/SpaCCC/results
 ```
 **Arguments**:
 
 | **Arguments** | **Detail** |
 | --- | --- |
-| **counts-data** | [ensembl or gene_name or hgnc_symbol] Type of gene identifiers in the counts data |
-| **iterations** | Number of iterations for the statistical analysis [1000] |
-| **threads** | Number of threads to use. >=1 [4] |
-| **output-path** | Directory where the results will be allocated (the directory must exist). |
+| **filename** | The file path for single-cell RNA-seq data, requires h5ad file format |
+| **dataset_name** | Dataset name |
+| **load_model** | The folder path of pretained scGPT model (you can download it form [link](https://drive.google.com/drive/folders/1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y))|
+| **save_dir** | The folder path for saving the results (the directory will automatically be created). |
 
 
 ```
