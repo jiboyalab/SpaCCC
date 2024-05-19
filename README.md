@@ -916,123 +916,20 @@ python /home/jby2/SpaCCC/embedding_null_test.py --embedding_file /home/jby2/resu
 | **LR_file** | The file path of ligand and receptor pairs. |
 | **LR_result** | The saved file path of significant ligand and receptor pairs. |
 
-```
-[1] "############ ------------- TODO: calculate functional states of malignant cells --------------- ############"
-[1] "############ ------------- Author:  Boya Ji && Liwen Xu  date(2023-06) --------------- ############"
-[1] "############ ------------- R package needs to be installed in advance: org.Hs.eg.db, clusterProfiler, GSVA) --------------- ############"
-[1] ">>> CancerSEA signature gene list ID convert <<< [2023-08-16 19:07:48]"
 
-clusterProfiler v4.6.2  For help: https://yulab-smu.top/biomedical-knowledge-mining-book/
-...
-[1] "Running for human genes ..."
-Loading required package: AnnotationDbi
-Loading required package: stats4
-Loading required package: BiocGenerics
-...
-[1] ">>> Extract malignant cell subsets <<< [2023-08-16 19:07:59]"
-[1] 10
-[1] ">>> Calculation of malignant cell state activity based on GSVA <<< [2023-08-16 19:08:12]"
-Estimating GSVA scores for 14 gene sets.
-Estimating ECDFs with Gaussian kernels
-  |======================================================================| 100%
 
-Warning message:
-useNames = NA is deprecated. Instead, specify either useNames = TRUE or useNames = TRUE.
+## 5，Calculation of the communication strength at single cell resolution and Filtering out ligand-receptor interactions with low specificities
 ```
-
-```
-# Second, run tutorials3 to prioritize the dominant cell communication assmebly that affected functional states of malignant cells
-cd ./src/tutorials3/ && python main.py --count /home/jby2/ScRNA_test_data_matrix.txt --meta /home/jby2/ScRNA_test_data_metadata.txt --lr_file /home/jby2/LR_test_data.csv --dca_rank_result /home/jby2/dca_rank_result.csv --facked_LR 200 --device cuda:1 --repeat_num 50 --max_epoch 200 --cell_type Malignant --cell_state_file_path /home/jby2/malignant_cell_states_gsva.txt --learning_rate 1e-1 --display_loss False --cell_state EMT
+python /home/jby2/SpaCCC/ce_tensor_filter.py --filename /home/jby2/data/BRCA_Visium_10x_tmp.h5ad --LR_result /home/jby2/results/df_enriched_LR.csv --save_dir /home/jby2/results
 ```
 **Arguments**:
 
 | **Arguments** | **Detail** |
 | --- | --- |
-| **count** | Count matrix / normalized count matrix path. |
-| **meta** | Meta data (celltypes annotation) path. |
-| **lr_file** | The final results of LR pairs. |
-| **cell_type** | The specific cell type (Malignant here). |
-| **cell_state_file_path** | The file path of functional state of malignant cells. |
-| **cell_state** | The 14 kinds of functional state of malignant cells ( EMT, Metastasis, Hypoxia, Invasion, Apoptosis, DNArepair, CellCycle, DNAdamage, Stemness, Proliferation, Quiescence, Angiogenesis, Differentiation, Inflammation, Metastasis ). |
-| **device** | The device for model training (cuda or cpu, default is cpu). |
-| **facked_LR** | The faked ligand and receptor genes number for removing the edges with low specificities (default is 200). |
-| **repeat_num** | The repeat number for model training (default is 50). |
-| **max_epoch** | The max epoch for model training (default is 200). |
-| **learning_rate** | The learning rate for model training (default is 1e-1). |
-| **display_loss** | Display training loss for model training (default is True).|
-| **dca_rank_result** | The result filename of prioritize the dominant cell communication assmebly that regulates the target gene expression pattern. |
+| **filename** | The file path for single-cell RNA-seq data, requires h5ad file format. |
+| **LR_result** | The saved file path of significant ligand and receptor pairs. |
+| **save_dir** | The folder path for saving the results (the directory will automatically be created).. |
 
-```
-############ ------------- scDCA (functional states of malignant cells)--------------- ############
->>> arguments <<<  Namespace(cell_state='EMT', cell_state_file_path='/home/jby2/malignant_cell_states_gsva.txt', cell_type='Malignant', count='/home/jby2/ScRNA_test_data_matrix.txt', dca_rank_result='/home/jby2/dca_rank_result.csv', device='cuda:1', display_loss='False', facked_LR='200', learning_rate='1e-1', lr_file='/home/jby2/LR_test_data.csv', max_epoch='200', meta='/home/jby2/ScRNA_test_data_metadata.txt', repeat_num='50')
->>> loading library and data <<<  Wed Aug 16 20:01:43 2023
->>> construct an AnnData object from a count file and a metadata file <<<  Wed Aug 16 20:01:43 2023
->>> load the provided dataframe with the information on ligands and receptors <<<  Wed Aug 16 20:01:46 2023
->>> calculate the CE tensor by considering the expression levels of ligand and receptor genes <<<  Wed Aug 16 20:01:46 2023
-
-    Notes:
-        This function calculates the CE tensor by considering the expression levels of ligand and receptor genes.
-        If the data is large, it may require substantial memory for computation.
-        We're working on improving this piece of code.
-    
->>> filter the edge in calculated CE tensor, removing the edges with low specificities <<<  Wed Aug 16 20:01:51 2023
-
-    Notes:
-        This process will take a long time, if you want to reduce the calculation time, please reduce the facked_LR number, the default value is 200
-    
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 154/154 [12:33<00:00,  4.89s/it]
->>> construct a cell type adjacency tensor based on the specific cell type and the summed LR-CE tensor. <<<  Wed Aug 16 20:14:26 2023
-cell type: B
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:14<00:00, 99.36it/s]
-cell type: CD8T
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:24<00:00, 58.54it/s]
-cell type: Malignant
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [01:13<00:00, 19.13it/s]
-cell type: Mono/Macro
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1412/1412 [00:14<00:00, 100.68it/s]
->>> get the functional states of malignant cells in the dataset <<<  Wed Aug 16 20:16:32 2023
->>> start training the multi-view graph convolutional neural network <<<  Wed Aug 16 20:16:32 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [01:22<00:00,  1.65s/it]
->>> calculate the functional states of malignant cells. <<<  Wed Aug 16 20:17:55 2023
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 63.22it/s]
-The mean squared error of original and predicted the functional states of malignant cells: 0.024902295
-The Pearson correlation of original and predicted the functional states of malignant cells: 0.8482257796249801
->>> the dominant cell communication assmebly that affected the functional states of malignant cells is stored at: <<<  /home/jby2/dca_rank_result.csv Wed Aug 16 20:17:56 2023
-```
-
-A visualization sample of results:
-<div align="center">
-  <img src="https://github.com/jiboyalab/scDCA/blob/main/IMG/cellstate.png" alt="Editor" width="500">
-</div>
-
-## 5，Clinical intervertion altered effect of cell communication on gene expression
-```
-# run tutorials1 for untreated P76_scRNA data and P915_scRNA data, which was received the aPD-1 + aCTLA-4 with no tyrosine kinase inhibitors exposed and showed partial response.
-cd ./src/tutorials1/ && python main.py --count /home/jby2/RCC_scRNA_P76_matrix.txt --meta /home/jby2/RCC_scRNA_P76_metadata.txt --gene CD8A --lr_file /home/jby2/LR_P76.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss True --ccc_ratio_result /home/jby2/P76_ccc_ratio_result.csv --dca_rank_result /home/jby2/P76_dca_rank_result.csv
-
-cd ./src/tutorials1/ && python main.py --count /home/jby2/RCC_scRNA_P915_matrix.txt --meta /home/jby2/RCC_scRNA_P915_metadata.txt --gene CD8A --lr_file /home/jby2/LR_P915.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss True --ccc_ratio_result /home/jby2/P915_ccc_ratio_result.csv --dca_rank_result /home/jby2/P915_dca_rank_result.csv
-```
-**Arguments**:
-
-| **Arguments** | **Detail** |
-| --- | --- |
-| **count** | Count matrix / normalized count matrix path. |
-| **meta** | Meta data (celltypes annotation) path. |
-| **lr_file** | The final results of LR pairs. |
-| **gene** | The specific target gene name (Please ensure that the gene is highly variable, we detect the highly variable genes by running sc.pp.highly_variable_genes with default parameters). |
-| **device** | The device for model training (cuda or cpu, default is cpu). |
-| **facked_LR** | The faked ligand and receptor genes number for removing the edges with low specificities (default is 200). |
-| **repeat_num** | The repeat number for model training (default is 50). |
-| **max_epoch** | The max epoch for model training (default is 200). |
-| **learning_rate** | The learning rate for model training (default is 1e-1). |
-| **display_loss** | Display training loss for model training (default is True).|
-| **dca_rank_result** | The result filename of prioritize the dominant cell communication assmebly that regulates the target gene expression pattern. |
-| **ccc_ratio_result** | The result filename of ratio of different cell types affected by cellular communication. |
-
-A visualization sample of results:
-<div align="center">
-  <img src="https://github.com/jiboyalab/scDCA/blob/main/IMG/cd8arankchange.png" alt="Editor" width="500">
-</div>
 
 ===========================================================================
 
