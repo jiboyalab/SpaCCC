@@ -728,7 +728,7 @@ wandb: Find logs at: ./wandb/run-20240519_111703-w8koygt1/logs
 
 
 
-## 2，Prioritize the dominant cell communication assmebly that regulates the target gene expression pattern
+## 2，Fine-tuning on Pre-trained Model for Obtaining Gene embeddings
 ```
 cd ./src/tutorials1/ && python main.py --count /home/jby2/ScRNA_test_data_matrix.txt --meta /home/jby2/ScRNA_test_data_metadata.txt --gene HCST --lr_file /home/jby2/LR_test_data.csv --device cuda:1 --facked_LR 200 --repeat_num 50 --max_epoch 200 --learning_rate 1e-1 --display_loss True --ccc_ratio_result /home/jby2/ccc_ratio_result.csv --dca_rank_result /home/jby2/dca_rank_result.csv
 ```
