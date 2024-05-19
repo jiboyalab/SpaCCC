@@ -44,9 +44,9 @@ SpaCCC is tested to work under:
 ### Installation of other dependencies 
 **Notes:** These dependencies, in order to obtain hidden embeddings of cells, ligands and receptors, are publicly available on their Github README.
 * Install [scGPT](https://github.com/bowang-lab/scGPT) using ` pip install scgpt "flash-attn<1.0.5" ` if you encounter any issue. 
-* Install [CellChat v1.6.0](https://github.com/sqjin/CellChat/tree/master) using ` devtools::install_github("sqjin/CellChat") ` in the R environment if you encounter any issue.
-* Install [NicheNet v1.1.0](https://github.com/saeyslab/nichenetr) using ` devtools::install_github("saeyslab/nichenetr") ` in the R environment if you encounter any issue.
-* Install [ICELLNET](https://github.com/soumelis-lab/ICELLNET) using ` install_github("soumelis-lab/ICELLNET",ref="master", subdir="icellnet") ` in the R environment if you encounter any issue.
+* Install [Node2vec+](https://github.com/krishnanlab/PecanPy) using ` pip install pecanpy ` if you encounter any issue.
+* Install [LIANA+](https://github.com/saezlab/liana-py) using ` pip install liana ` if you encounter any issue.
+
 
 
 # Quick start
