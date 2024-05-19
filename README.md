@@ -733,7 +733,7 @@ wandb: Find logs at: ./wandb/run-20240519_111703-w8koygt1/logs
 # The following program needs to be run in the scGPT environment, see [scGPT](https://github.com/bowang-lab/scGPT) for details on how to use it:
 
 python /home/jby2/SpaCCC/fine_tuning_gene_embeddings.py --filename /home/jby2/SpaCCC/data/BRCA_Visium_10x_tmp.h5ad --dataset_name BRCA_Visium_10x_tmp --load_model /home/jby2/SpaCCC/scGPT_their_example/scGPT_human --save_dir /home/jby2/SpaCCC/results
-
+python /home/jby2/SpaCCC/grn_get_embedding.py --filename /home/jby2/SpaCCC/data/BRCA_Visium_10x_tmp.h5ad --model_dir /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-15-17
 ```
 **Arguments**:
 
@@ -744,7 +744,7 @@ python /home/jby2/SpaCCC/fine_tuning_gene_embeddings.py --filename /home/jby2/Sp
 | **dataset_name** | Dataset name |
 | **load_model** | The folder path of pretained scGPT model (you can download it form [link](https://drive.google.com/drive/folders/1oWh_-ZRdhtoGQ2Fw24HP41FgLoomVo-y))|
 | **save_dir** | The folder path for saving the results (the directory will automatically be created). |
-
+| **model_dir** | The folder path of fine tuned scGPT model. |
 ```
 /home/jby2/anaconda3/envs/scgptt/lib/python3.9/site-packages/torchvision/io/image.py:13: UserWarning: Failed to load image Python extension: libtorch_cuda_cu.so: cannot open shared object file: No such file or directory
   warn(f"Failed to load image Python extension: {e}")
@@ -858,44 +858,24 @@ scGPT - INFO - -----------------------------------------------------------------
 >>> Save the model into the save_dir <<<  Sun May 19 15:32:18 2024
 
 ```
-A sample output result file is as follows:
+```
+############ ------------- SpaCCC --------------- ############
+>>> Load pre-trained model <<<  Sun May 19 16:27:10 2024
+>>> Retrieve model parameters from config files <<<  Sun May 19 16:27:10 2024
+Resume model from /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-15-17/best_model.pt, the model args will override the config /home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-15-17/args.json.
+Loading params encoder.embedding.weight with shape torch.Size([60697, 512])
+Loading params encoder.enc_norm.weight with shape torch.Size([512])
+...
+Loading params cls_decoder.out_layer.weight with shape torch.Size([1, 512])
+Loading params cls_decoder.out_layer.bias with shape torch.Size([1])
+scGPT - INFO - Binning data ...
+>>> Retrieve scGPT's gene embeddings <<<  Sun May 19 16:27:23 2024
+Retrieved gene embeddings for 17674 genes.
+>>> Save gene embeddings to <<<  Sun May 19 16:27:40 2024
+/home/jby2/SpaCCC/results/dev_BRCA_Visium_10x_tmp-May19-15-17/all_gene_embedding.csv
+```
 
 
-**dca_rank_result.csv** （The first column represents the serial number of cell type pairs, ordered by attention weight; the second column represents the cell type pair name; the third column represents the average attention weight for 50 model repetitions of training）:
-| | Cell_type_Pair |MGC_layer_attention|
-| --- | --- | --- |
-| 8 | CD8T:CD8T |0.51397777|
-| 4 | Malignant:Mono/Macro |0.44408146|
-| 7 | Malignant:Malignant |0.43624955|
-| 6 | CD8T:Mono/Macro |0.41747302|
-| 5 | CD8T:Malignant |0.4010921|
-| 1 | B:CD8T |0.3871707|
-| 2 | B:Malignant |0.35314357|
-| 9 | Mono/Macro:Mono/Macro |0.3088738|
-| 3 | B:Mono/Macro |0.27923074|
-| 0 | B:B |0.21194793|
-
-
-A visualization sample of results:
-<div align="center">
-  <img src="https://github.com/jiboyalab/scDCA/blob/main/IMG/cd8arank.png" alt="Editor" width="500">
-</div>
-
-===========================================================================
-
-
-**ccc_ration_result.csv** (The first column represents the serial number of cell type; the second column represents the extent to which the expression of a target gene is affected by cellular communication in the cell type; the third column represents the extent to which the expression of a target gene is affected by the cell type itself; the fourth column represents the ratio of the two (Delta_e/(Delta_e+E0)), indicating the extent to which that the cell type is affected by cellular communication).
-| | Delta_e |E0|Delta_e_proportion | Cell_type|
-| --- | --- | --- | --- | --- |
-| 0 |89.06278 |25.143023|0.77984464|B|
-| 1 | 2561.6501 |136.53331|0.9493981|CD8T|
-| 2 | 5678.756 |685.81494|0.8922449|Malignant|
-| 3 | 544.611 |30.595951|0.9468088|Mono/Macro|
-
-A visualization sample of results:
-<div align="center">
-  <img src="https://github.com/jiboyalab/scDCA/blob/main/IMG/cd8adeltae.png" alt="Editor" width="400">
-</div>
 
 ## 3，Prioritize the dominant cell communication assmebly that regulates the key factors in specific cell type
 ```
