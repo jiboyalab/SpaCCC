@@ -757,13 +757,13 @@ if __name__ == "__main__":
                 adata_t=adata_sorted if per_seq_batch_sample else adata,
                 include_types=["cls"],
             )
-            results["batch_umap"].savefig(
-                save_dir / f"embeddings_batch_umap[cls]_e{best_model_epoch}.pdf", dpi=300
-            )
+            # results["batch_umap"].savefig(
+            #     save_dir / f"embeddings_batch_umap[cls]_e{best_model_epoch}.pdf", dpi=300
+            # )
 
-            results["celltype_umap"].savefig(
-                save_dir / f"embeddings_celltype_umap[cls]_e{best_model_epoch}.pdf", dpi=300
-            )
+            # results["celltype_umap"].savefig(
+            #     save_dir / f"embeddings_celltype_umap[cls]_e{best_model_epoch}.pdf", dpi=300
+            # )
             # metrics_to_log = {"test/" + k: v for k, v in results.items()}
             # metrics_to_log["test/batch_umap"] = wandb.Image(
             #     str(save_dir / f"embeddings_batch_umap[cls]_e{best_model_epoch}.pdf"),
