@@ -877,7 +877,7 @@ Retrieved gene embeddings for 17674 genes.
 
 
 
-## 3，Training on functional gene interaction network for Obtaining Gene embeddings
+## 3，Graph embedding strategy on functional gene interaction network
 ```
 # Protein links and information are first preprocessed
 python /home/jby2/SpaCCC/preprocess_links_info.py --protein_links /home/jby2/SpaCCC/9606.protein.links.v12.0.txt --protein_info /home/jby2/SpaCCC/9606.protein.info.v12.0.txt --save_dir /home/jby2/SpaCCC/results
@@ -903,18 +903,18 @@ Took 00:03:24.95 to train embeddings
 
 
 
-## 4，Prioritize the dominant cell communication assmebly that affected functional states of malignant cells
+## 4，Determining the statistical significance of ligand-receptor interactions
 ```
-# First, we calculate functional states of malignant cells by GSVA, R package needs to be installed in advance: org.Hs.eg.db, clusterProfiler, GSVA
-cd ./src/tutorials3/ && Rscript malignant_cell_states_gsva.R --count ./data/ScRNA_test_data_matrix.txt --meta ./data/ScRNA_test_data_metadata.txt --output_file_name ./output/malignant_cell_states_gsva.txt
+python /home/jby2/SpaCCC/embedding_null_test.py --embedding_file /home/jby2/results/PPI_embedding.csv --LR_file /home/jby2/data/LR.csv --LR_result /home/jby2/results/PPI_embedding_df_enriched_LR.csv
+python /home/jby2/SpaCCC/embedding_null_test.py --embedding_file /home/jby2/results/scGPT_embedding.csv --LR_file /home/jby2/data/LR.csv --LR_result /home/jby2/results/scGPT_embedding_df_enriched_LR.csv
 ```
 **Arguments**:
 
 | **Arguments** | **Detail** |
 | --- | --- |
-| **count** | Count matrix / normalized count matrix path. |
-| **meta** | Meta data (celltypes annotation) path. |
-| **output_file_name** | The output file name of results. |
+| **embedding_file** | The file path of ligand and receptor embeddings |
+| **LR_file** | The file path of ligand and receptor pairs. |
+| **LR_result** | The saved file path of significant ligand and receptor pairs. |
 
 ```
 [1] "############ ------------- TODO: calculate functional states of malignant cells --------------- ############"
