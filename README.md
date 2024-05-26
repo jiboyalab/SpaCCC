@@ -53,16 +53,16 @@ SpaCCC is tested to work under:
 To reproduce our results:
 
 
-**Notes:** We provide readers with 2 sets of data as detailed in the following data descriptions. Note that in order to reduce the computational overhead and to make it easier for readers to reproduce our code, we will use the smaller test data in the following tutorials. Processing of other single-cell RNA-Seq data follows the same core pipeline as the test data. Due to the large size of the data, we uploaded them to the [Google Drive](https://drive.google.com/drive/folders/1UcbRceqpY5aRNZUtGnNlBC7EQ0k2voBE?usp=drive_link).
+**Notes:** We provide readers with 4 sets of data as detailed in the following data descriptions. Note that in order to reduce the computational overhead and to make it easier for readers to reproduce our code, we will use the smaller test data in the following tutorials. Processing of other single-cell RNA-Seq data follows the same core pipeline as the test data. Due to the large size of the data, we uploaded them to the [Google Drive](https://drive.google.com/drive/folders/1UcbRceqpY5aRNZUtGnNlBC7EQ0k2voBE?usp=drive_link).
 
 ## Data description
 
 | File name  | Description |
 | ------------- | ------------- |
-| BRCA_Visium_10x_tmp.h5ad  | The renal cell carcinoma dataset was obtained from the STOmicsDB database (Dataset ID: STDS0000223), which is a comprehensive repository of literature and datasets related to spatial transcriptomics topics. This dataset contains 4510 cells of 5 cell types (Supplementary Fig. 1.a).|
-| GSM5924030_ffpe_c_2_filtered_feature_bc_matrix_processed.h5ad |The human breast cancer dataset was obtained from the 10x Genomics website (Visium Demonstration, Human Breast Cancer, Block A Section 1). It contains 3798 cells of 9 cell types (Supplementary Fig. 1.b).|
-
-
+| 10x_visium_human_renal_cell_carcinoma  | The human renal cell carcinoma dataset was obtained from the GEO Series Accessions: GSE175540. You can also download the dataset from the STOmicsDB database (Dataset ID: STDS0000223), which is a comprehensive repository of literature and datasets related to spatial transcriptomics topics. This dataset contains 4510 cells of 5 cell types (Supplementary Fig. 1.a).|
+| 10x_visium_human_breast_cancer |The human breast cancer dataset was obtained from the 10x Genomics website (Visium Demonstration, Human Breast Cancer, Block A Section 1). It contains 3798 cells of 9 cell types (Supplementary Fig. 1.b).|
+| MERFISH_human_ovarian_cancer_patient2_slice2 |The human ovarian cancer patient2 slice2 dataset was obtained from the vizgen website (https://console.cloud.google.com/storage/browser/vz-ffpe-showcase/HumanOvarianCancerPatient2Slice2).|
+| GeoMx_DSP_human_non_small_cell_lung_cancer |The human non-small cell lung cancer brain metastasis dataset was obtained from the GEO Series Accessions: GSE200563.|
 ## 1，Fine-tuning on Pre-trained Model for Cell-type Annotation
 **Notes:** If you already have the cell type labels in your dataset (e.g. adata.obs.cell_type in the h5ad file that we provide), skip this step.
 ```
