@@ -948,7 +948,7 @@ All authors were involved in the conceptualization of the SpaCCC method.  LWX an
 
 
 # Contacts
-If you have any questions or comments, please feel free to email: byj@hnu.edu.cn.
+If you have any questions or comments, please feel free to email: Shaoliang Peng (slpeng@hnu.edu.cn); Boya Ji (byj@hnu.edu.cn).
 
 # License
 
